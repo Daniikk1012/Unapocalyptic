@@ -1,0 +1,29 @@
+buildscript {
+    ext {
+        gdxVersion = '1.10.0'
+    }
+
+    repositories {
+        mavenCentral()
+        google()
+    }
+
+    dependencies {
+        classpath "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
+    }
+}
+
+task texturePacker {
+    def input = 'raw-assets/img'
+    def output = 'assets/img'
+    inputs.dir input
+    outputs.dir output
+
+    doLast {
+        com.badlogic.gdx.tools.texturepacker.TexturePacker.process(
+            input,
+            output,
+            'skin',
+        )
+    }
+}

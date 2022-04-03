@@ -1,0 +1,22 @@
+plugins {
+    id 'com.wgsoft.game.unapocalyptic.java-conventions'
+    id 'application'
+}
+
+dependencies {
+    implementation project(':core')
+    implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+    implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDirs = [assetDir]
+        }
+    }
+}
+
+application {
+    mainClass = 'com.wgsoft.game.unapocalyptic.desktop.Launcher'
+}

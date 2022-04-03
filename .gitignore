@@ -1,0 +1,19 @@
+# Gradle
+.gradle/
+build/
+
+# Eclipse
+.settings/
+.classpath
+.project
+
+# Java
+*.class
+
+# Assets
+/assets/img/*
+!/assets/img/fnt/
+!/assets/img/skin.json
+
+# Desktop
+/desktop/bin

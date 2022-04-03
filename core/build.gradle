@@ -1,0 +1,8 @@
+plugins {
+    id 'com.wgsoft.game.unapocalyptic.java-conventions'
+    id 'java-library'
+}
+
+dependencies {
+    api "com.badlogicgames.gdx:gdx:$gdxVersion"
+}

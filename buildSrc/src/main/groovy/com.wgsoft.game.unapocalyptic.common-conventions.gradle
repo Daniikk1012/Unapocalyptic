@@ -1,0 +1,23 @@
+plugins {
+    id 'eclipse'
+}
+
+repositories {
+    mavenCentral()
+    google()
+}
+
+version = '0.1.0'
+
+ext {
+    assetDir = '../assets'
+}
+
+tasks.withType(JavaCompile) {
+    sourceCompatibility = 8
+    targetCompatibility = 8
+}
+
+tasks.all {
+    dependsOn rootProject.texturePacker
+}

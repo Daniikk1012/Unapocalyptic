@@ -1,0 +1,25 @@
+{
+  "Color": {
+    "grey": {
+      "hex": "#8c8c8c"
+    }
+  },
+  "BitmapFont": {
+    "montserrat-extrabold-outline": {
+      "file": "fnt/montserrat-extrabold-outline.fnt"
+    },
+    "montserrat-regular-medium": {
+      "file": "fnt/montserrat-regular.fnt",
+      "scaledSize": 64
+    }
+  },
+  "LabelStyle": {
+    "montserrat-extrabold-outline": {
+      "font": "montserrat-extrabold-outline"
+    },
+    "montserrat-regular-medium": {
+      "font": "montserrat-regular-medium",
+      "fontColor": "grey"
+    }
+  }
+}
