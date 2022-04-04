@@ -17,3 +17,6 @@ build/
 
 # Desktop
 /desktop/bin
+
+# Html
+/html/war

@@ -1,0 +1,50 @@
+plugins {
+    id 'com.wgsoft.game.unapocalyptic.java-conventions'
+    id 'org.wisepersist.gwt' version '1.1.18'
+}
+
+dependencies {
+    implementation project(':core')
+    implementation "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
+    implementation "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
+    implementation "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
+}
+
+gwt {
+    gwtVersion = '2.9.0'
+    minHeapSize = '1G'
+    maxHeapSize = '1G'
+    modules 'HtmlModule'
+}
+
+sourceSets {
+    main {
+        resources.srcDirs = ['src/main/res']
+        compileClasspath +=
+            files(project(':core').sourceSets.main.allJava.srcDirs)
+    }
+}
+
+task dist(dependsOn: [clean, compileGwt]) {
+    def output = 'build/dist'
+    outputs.dir output
+
+    doLast {
+        file(output).mkdirs()
+
+        copy {
+            from 'build/gwt/out'
+            into output
+        }
+
+        copy {
+            from 'war'
+            into output
+        }
+
+        copy {
+            from 'web'
+            into output
+        }
+    }
+}

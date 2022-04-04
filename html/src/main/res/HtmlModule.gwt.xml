@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to="html">
+  <inherits name="com.badlogic.gdx.backends.gdx_backends_gwt"/>
+  <entry-point class="com.wgsoft.game.unapocalyptic.html.Launcher"/>
+  <set-configuration-property name="gdx.assetpath" value="../assets"/>
+  <source path="com/wgsoft/game/unapocalyptic"/>
+</module>
