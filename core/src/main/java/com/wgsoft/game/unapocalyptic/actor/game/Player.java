@@ -1,6 +1,7 @@
 package com.wgsoft.game.unapocalyptic.actor.game;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -15,10 +16,15 @@ import com.wgsoft.game.unapocalyptic.screen.GameScreen;
 public final class Player extends Group {
     private final GameScreen gameScreen;
 
-    private final TextureRegion region;
+    private final Animation<TextureRegion> standAnimation;
+    private final Animation<TextureRegion> walkAnimation;
+
+    private Animation<TextureRegion> animation;
+    private float animationTime;
 
     private boolean left, right;
     private float direction;
+    private boolean flip;
 
     public Player(
         final Unapocalyptic game,
@@ -26,7 +32,17 @@ public final class Player extends Group {
         final Skin skin
     ) {
         this.gameScreen = gameScreen;
-        region = skin.getRegion("player");
+        standAnimation = new Animation<>(
+            1f,
+            skin.getRegions("player/stand"),
+            Animation.PlayMode.LOOP
+        );
+        walkAnimation = new Animation<>(
+            0.25f,
+            skin.getRegions("player/walk"),
+            Animation.PlayMode.LOOP
+        );
+        animation = standAnimation;
 
         setSize(120f, 120f);
         setPosition(
@@ -47,9 +63,11 @@ public final class Player extends Group {
 
                         if(right) {
                             direction = 0f;
+                            animation = standAnimation;
                         } else {
                             direction = -1f;
-                            region.flip(!region.isFlipX(), false);
+                            animation = walkAnimation;
+                            flip = true;
                             hammer.setFlip(true);
                         }
 
@@ -59,9 +77,11 @@ public final class Player extends Group {
 
                         if(left) {
                             direction = 0f;
+                            animation = standAnimation;
                         } else {
                             direction = 1f;
-                            region.flip(region.isFlipX(), false);
+                            animation = walkAnimation;
+                            flip = false;
                             hammer.setFlip(false);
                         }
 
@@ -90,10 +110,12 @@ public final class Player extends Group {
 
                         if(right) {
                             direction = 1f;
-                            region.flip(region.isFlipX(), false);
+                            animation = walkAnimation;
+                            flip = false;
                             hammer.setFlip(false);
                         } else {
                             direction = 0f;
+                            animation = standAnimation;
                         }
 
                         return true;
@@ -102,10 +124,12 @@ public final class Player extends Group {
 
                         if(left) {
                             direction = -1f;
-                            region.flip(!region.isFlipX(), false);
+                            animation = walkAnimation;
+                            flip = true;
                             hammer.setFlip(true);
                         } else {
                             direction = 0f;
+                            animation = standAnimation;
                         }
 
                         return true;
@@ -126,12 +150,24 @@ public final class Player extends Group {
 
     @Override
     public void draw(final Batch batch, final float parentAlpha) {
-        batch.draw(region, getX(), getY(), getWidth(), getHeight());
+        batch.draw(
+            animation.getKeyFrame(animationTime),
+            getX(),
+            getY(),
+            getWidth(),
+            getHeight()
+        );
         super.draw(batch, parentAlpha);
     }
 
     @Override
     public void act(final float delta) {
+        animationTime += delta;
+
+        final TextureRegion region = animation.getKeyFrame(animationTime);
+
+        region.flip(region.isFlipX() != flip, false);
+
         moveBy(direction * 840f * delta, 0f);
 
         if(getStage() != null) {
