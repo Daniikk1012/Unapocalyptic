@@ -19,4 +19,5 @@ build/
 /desktop/bin
 
 # Html
-/html/war
+/html/bin/
+/html/war/
