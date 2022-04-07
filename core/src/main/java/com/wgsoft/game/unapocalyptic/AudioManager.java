@@ -29,16 +29,6 @@ public final class AudioManager {
         smashSound = Gdx.audio.newSound(Gdx.files.internal("snd/smash.wav"));
     }
 
-    public static void dispose() {
-        if(instance != null) {
-            getInstance().eatenSound.dispose();
-            getInstance().explosionSound.dispose();
-            getInstance().hitSound.dispose();
-            getInstance().shootSound.dispose();
-            getInstance().smashSound.dispose();
-        }
-    }
-
     public static void playEatenSound() {
         getInstance().eatenSound.play();
     }
@@ -57,5 +47,15 @@ public final class AudioManager {
 
     public static void playSmashSound() {
         getInstance().smashSound.play();
+    }
+
+    public static void dispose() {
+        if(instance != null) {
+            getInstance().eatenSound.dispose();
+            getInstance().explosionSound.dispose();
+            getInstance().hitSound.dispose();
+            getInstance().shootSound.dispose();
+            getInstance().smashSound.dispose();
+        }
     }
 }
