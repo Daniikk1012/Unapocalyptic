@@ -6,10 +6,12 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.wgsoft.game.unapocalyptic.actor.SmashParticleEffectActor;
 import com.wgsoft.game.unapocalyptic.screen.GameScreen;
 
 public final class Unapocalyptic extends Game {
@@ -22,6 +24,8 @@ public final class Unapocalyptic extends Game {
     private Sound hitSound;
     private Sound shootSound;
     private Sound smashSound;
+
+    private ParticleEffect smashParticleEffect;
 
     private GameScreen gameScreen;
 
@@ -46,6 +50,11 @@ public final class Unapocalyptic extends Game {
         hitSound = Gdx.audio.newSound(Gdx.files.internal("snd/hit.wav"));
         shootSound = Gdx.audio.newSound(Gdx.files.internal("snd/shoot.wav"));
         smashSound = Gdx.audio.newSound(Gdx.files.internal("snd/smash.wav"));
+
+        smashParticleEffect = new ParticleEffect();
+        smashParticleEffect
+            .load(Gdx.files.internal("prt/smash"), skin.getAtlas());
+        SmashParticleEffectActor.setInstance(smashParticleEffect);
 
         gameScreen = new GameScreen(this);
 
@@ -74,6 +83,8 @@ public final class Unapocalyptic extends Game {
         hitSound.dispose();
         shootSound.dispose();
         smashSound.dispose();
+
+        smashParticleEffect.dispose();
     }
 
     public SpriteBatch getSpriteBatch() {

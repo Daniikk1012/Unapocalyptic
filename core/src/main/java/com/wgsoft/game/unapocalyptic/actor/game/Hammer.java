@@ -8,7 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Pools;
 import com.wgsoft.game.unapocalyptic.Unapocalyptic;
+import com.wgsoft.game.unapocalyptic.actor.SmashParticleEffectActor;
 
 public final class Hammer extends Actor {
     private static final float ORIGIN_LEFT = 60f;
@@ -42,6 +44,7 @@ public final class Hammer extends Actor {
         }
 
         setX(getParent().getWidth() / 2f - getOriginX());
+
     }
 
     public void smash() {
@@ -53,6 +56,16 @@ public final class Hammer extends Actor {
                 Actions.rotateBy(180f, 0.125f, Interpolation.slowFast),
                 Actions.run(() -> {
                     game.playSmashSound();
+
+                    final SmashParticleEffectActor smashParticleEffectActor =
+                        Pools.obtain(SmashParticleEffectActor.class);
+                    smashParticleEffectActor.setPosition(
+                        getX() + getParent().getX() + 2 * getOriginX()
+                            + (region.isFlipX() ? - getWidth() : 0f),
+                        getY() + getParent().getY()
+                    );
+                    smashParticleEffectActor.start();
+                    getParent().getParent().addActor(smashParticleEffectActor);
 
                     Rectangle.tmp.set(
                         getParent().getX(Align.center)
@@ -99,5 +112,6 @@ public final class Hammer extends Actor {
             getScaleY(),
             region.isFlipX() ? getRotation() : -getRotation()
         );
+        super.draw(batch, parentAlpha);
     }
 }
