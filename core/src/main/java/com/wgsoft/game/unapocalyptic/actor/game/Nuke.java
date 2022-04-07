@@ -6,12 +6,10 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.wgsoft.game.unapocalyptic.Unapocalyptic;
+import com.wgsoft.game.unapocalyptic.AudioManager;
 import com.wgsoft.game.unapocalyptic.screen.GameScreen;
 
 public final class Nuke extends Actor {
-    private final Unapocalyptic game;
-
     private final Player player;
 
     private final TextureRegion region;
@@ -19,12 +17,7 @@ public final class Nuke extends Actor {
     private final float align;
     private float progress;
 
-    public Nuke(
-        final Unapocalyptic game,
-        final Player player,
-        final Skin skin
-    ) {
-        this.game = game;
+    public Nuke(final Player player, final Skin skin) {
         this.player = player;
         region = skin.getRegion("nuke");
 
@@ -56,7 +49,7 @@ public final class Nuke extends Actor {
                         actor.getWidth(),
                         actor.getHeight()))
                 ) {
-                    game.playHitSound();
+                    AudioManager.playHitSound();
                     remove();
                     actor.remove();
                     break loop;
@@ -64,7 +57,7 @@ public final class Nuke extends Actor {
             }
 
             if(getY() < GameScreen.GROUND_HEIGHT) {
-                game.playExplosionSound();
+                AudioManager.playExplosionSound();
                 remove();
                 player.die();
             }

@@ -9,8 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Align;
+import com.wgsoft.game.unapocalyptic.AudioManager;
 import com.wgsoft.game.unapocalyptic.Constants;
-import com.wgsoft.game.unapocalyptic.Unapocalyptic;
 import com.wgsoft.game.unapocalyptic.screen.GameScreen;
 
 public final class Player extends Group {
@@ -26,11 +26,7 @@ public final class Player extends Group {
     private float direction;
     private boolean flip;
 
-    public Player(
-        final Unapocalyptic game,
-        final GameScreen gameScreen,
-        final Skin skin
-    ) {
+    public Player(final GameScreen gameScreen, final Skin skin) {
         this.gameScreen = gameScreen;
         standAnimation = new Animation<>(
             1f,
@@ -51,7 +47,7 @@ public final class Player extends Group {
             Align.bottom | Align.center
         );
 
-        final Hammer hammer = new Hammer(game, skin);
+        final Hammer hammer = new Hammer(skin);
         addActor(hammer);
 
         addListener(new InputListener() {
@@ -87,7 +83,7 @@ public final class Player extends Group {
 
                         return true;
                     case Input.Keys.Z:
-                        game.playShootSound();
+                        AudioManager.playShootSound();
                         getParent().addActor(new Bullet(
                             getX(Align.center),
                             getY(Align.center),

@@ -2,7 +2,6 @@ package com.wgsoft.game.unapocalyptic;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -18,12 +17,6 @@ public final class Unapocalyptic extends Game {
     private SpriteBatch spriteBatch;
 
     private Skin skin;
-
-    private Sound eatenSound;
-    private Sound explosionSound;
-    private Sound hitSound;
-    private Sound shootSound;
-    private Sound smashSound;
 
     private ParticleEffect smashParticleEffect;
 
@@ -43,13 +36,6 @@ public final class Unapocalyptic extends Game {
                 );
             }
         }
-
-        eatenSound = Gdx.audio.newSound(Gdx.files.internal("snd/eaten.wav"));
-        explosionSound =
-            Gdx.audio.newSound(Gdx.files.internal("snd/explosion.wav"));
-        hitSound = Gdx.audio.newSound(Gdx.files.internal("snd/hit.wav"));
-        shootSound = Gdx.audio.newSound(Gdx.files.internal("snd/shoot.wav"));
-        smashSound = Gdx.audio.newSound(Gdx.files.internal("snd/smash.wav"));
 
         smashParticleEffect = new ParticleEffect();
         smashParticleEffect
@@ -78,11 +64,7 @@ public final class Unapocalyptic extends Game {
 
         skin.dispose();
 
-        eatenSound.dispose();
-        explosionSound.dispose();
-        hitSound.dispose();
-        shootSound.dispose();
-        smashSound.dispose();
+        AudioManager.dispose();
 
         smashParticleEffect.dispose();
     }
@@ -93,25 +75,5 @@ public final class Unapocalyptic extends Game {
 
     public Skin getSkin() {
         return skin;
-    }
-
-    public void playEatenSound() {
-        eatenSound.play();
-    }
-
-    public void playExplosionSound() {
-        explosionSound.play();
-    }
-
-    public void playHitSound() {
-        hitSound.play();
-    }
-
-    public void playShootSound() {
-        shootSound.play();
-    }
-
-    public void playSmashSound() {
-        smashSound.play();
     }
 }

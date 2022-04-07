@@ -7,13 +7,11 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Align;
-import com.wgsoft.game.unapocalyptic.Unapocalyptic;
+import com.wgsoft.game.unapocalyptic.AudioManager;
 import com.wgsoft.game.unapocalyptic.screen.GameScreen;
 
 public final class Comet extends Actor {
     private final float SPEED_MAX = 240f;
-
-    private final Unapocalyptic game;
 
     private final Player player;
 
@@ -23,12 +21,7 @@ public final class Comet extends Actor {
     private float speed;
     private float progress;
 
-    public Comet(
-        final Unapocalyptic game,
-        final Player player,
-        final Skin skin
-    ) {
-        this.game = game;
+    public Comet(final Player player, final Skin skin) {
         this.player = player;
         animation = new Animation<>(
             0.5f,
@@ -77,7 +70,7 @@ public final class Comet extends Actor {
                     actor.getWidth(),
                     actor.getHeight()))
             ) {
-                game.playHitSound();
+                AudioManager.playHitSound();
 
                 progress -= 30f;
 
@@ -90,7 +83,7 @@ public final class Comet extends Actor {
         }
 
         if(getY() < GameScreen.GROUND_HEIGHT) {
-            game.playExplosionSound();
+            AudioManager.playExplosionSound();
             remove();
             player.die();
         }

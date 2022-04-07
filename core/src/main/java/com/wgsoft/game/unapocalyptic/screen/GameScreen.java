@@ -95,16 +95,16 @@ public final class GameScreen extends ScreenAdapter {
     public void start() {
         gameGroup.clear();
 
-        final Player player = new Player(game, this, game.getSkin());
+        final Player player = new Player(this, game.getSkin());
 
-        final Comet comet = new Comet(game, player, game.getSkin());
+        final Comet comet = new Comet(player, game.getSkin());
         gameGroup.addActor(comet);
 
         stage.setKeyboardFocus(player);
         gameGroup.addActor(player);
 
-        gameGroup.addActor(new ZombieSpawner(game, player, game.getSkin()));
-        gameGroup.addActor(new NukeSpawner(game, player, game.getSkin()));
+        gameGroup.addActor(new ZombieSpawner(player, game.getSkin()));
+        gameGroup.addActor(new NukeSpawner(player, game.getSkin()));
 
         scoreAction = Actions.forever(Actions.run(() -> {
             scoreLabel.setText((int)time);

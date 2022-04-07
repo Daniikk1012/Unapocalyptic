@@ -10,12 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Align;
-import com.wgsoft.game.unapocalyptic.Unapocalyptic;
+import com.wgsoft.game.unapocalyptic.AudioManager;
 import com.wgsoft.game.unapocalyptic.screen.GameScreen;
 
 public final class Zombie extends Actor {
-    private final Unapocalyptic game;
-
     private final Player player;
 
     private final TextureRegion region;
@@ -24,12 +22,7 @@ public final class Zombie extends Actor {
     private boolean active;
     private boolean walking;
 
-    public Zombie(
-        final Unapocalyptic game,
-        final Player player,
-        final Skin skin
-    ) {
-        this.game = game;
+    public Zombie(final Player player, final Skin skin) {
         this.player = player;
         region = new TextureRegion(skin.getRegion("zombie"));
 
@@ -111,7 +104,7 @@ public final class Zombie extends Actor {
                     player.getHeight()
                 ))
         ) {
-            game.playEatenSound();
+            AudioManager.playEatenSound();
             player.die();
         }
 

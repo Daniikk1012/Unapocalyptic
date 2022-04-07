@@ -9,21 +9,18 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Pools;
-import com.wgsoft.game.unapocalyptic.Unapocalyptic;
+import com.wgsoft.game.unapocalyptic.AudioManager;
 import com.wgsoft.game.unapocalyptic.actor.SmashParticleEffectActor;
 
 public final class Hammer extends Actor {
     private static final float ORIGIN_LEFT = 60f;
     private static final float ORIGIN_RIGHT = 180f;
 
-    private final Unapocalyptic game;
-
     private final TextureRegion region;
 
     private boolean smashing;
 
-    public Hammer(final Unapocalyptic game, final Skin skin) {
-        this.game = game;
+    public Hammer(final Skin skin) {
         region = skin.getRegion("hammer");
 
         setSize(240f, 120f);
@@ -55,7 +52,7 @@ public final class Hammer extends Actor {
                 Actions.rotateTo(0f),
                 Actions.rotateBy(180f, 0.125f, Interpolation.slowFast),
                 Actions.run(() -> {
-                    game.playSmashSound();
+                    AudioManager.playSmashSound();
 
                     final SmashParticleEffectActor smashParticleEffectActor =
                         Pools.obtain(SmashParticleEffectActor.class);
