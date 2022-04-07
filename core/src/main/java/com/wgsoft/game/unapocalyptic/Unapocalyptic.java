@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -17,8 +16,6 @@ public final class Unapocalyptic extends Game {
     private SpriteBatch spriteBatch;
 
     private Skin skin;
-
-    private ParticleEffect smashParticleEffect;
 
     private GameScreen gameScreen;
 
@@ -37,10 +34,7 @@ public final class Unapocalyptic extends Game {
             }
         }
 
-        smashParticleEffect = new ParticleEffect();
-        smashParticleEffect
-            .load(Gdx.files.internal("prt/smash"), skin.getAtlas());
-        SmashParticleEffectActor.setInstance(smashParticleEffect);
+        SmashParticleEffectActor.initialize(this);
 
         gameScreen = new GameScreen(this);
 
@@ -66,7 +60,7 @@ public final class Unapocalyptic extends Game {
 
         AudioManager.dispose();
 
-        smashParticleEffect.dispose();
+        SmashParticleEffectActor.disposeInstance();
     }
 
     public SpriteBatch getSpriteBatch() {
