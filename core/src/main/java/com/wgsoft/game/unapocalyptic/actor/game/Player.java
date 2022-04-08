@@ -175,11 +175,9 @@ public final class Player extends Group {
 
     private void shoot() {
         AudioManager.playShootSound();
-        getParent().addActor(new Bullet(
-            getX(Align.center),
-            getY(Align.center),
-            skin
-        ));
+        getParent().addActor(
+            Bullet.obtain(getX(Align.center), getY(Align.center), skin)
+        );
     }
 
     public void die() {
