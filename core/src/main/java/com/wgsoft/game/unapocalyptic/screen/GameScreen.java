@@ -120,7 +120,6 @@ public final class GameScreen extends ScreenAdapter {
         stage.setKeyboardFocus(restartActor);
 
         scoreLabel.removeAction(scoreAction);
-        scoreLabel.setText("Game Over");
 
         descriptionLabel.setVisible(true);
     }
