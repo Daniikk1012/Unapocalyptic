@@ -7,7 +7,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Pools;
 import com.wgsoft.game.unapocalyptic.AudioManager;
+import com.wgsoft.game.unapocalyptic.actor.ExplosionParticleEffectActor;
 import com.wgsoft.game.unapocalyptic.screen.GameScreen;
 
 public final class Comet extends Actor {
@@ -83,6 +85,16 @@ public final class Comet extends Actor {
         }
 
         if(getY() < GameScreen.GROUND_HEIGHT) {
+            final ExplosionParticleEffectActor particleEffectActor =
+                Pools.obtain(ExplosionParticleEffectActor.class);
+            particleEffectActor.setPosition(
+                getX(Align.center),
+                getY(),
+                Align.center
+            );
+            particleEffectActor.start();
+            getParent().addActor(particleEffectActor);
+
             AudioManager.playExplosionSound();
             remove();
             player.die();

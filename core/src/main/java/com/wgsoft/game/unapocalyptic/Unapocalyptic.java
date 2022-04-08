@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.wgsoft.game.unapocalyptic.actor.ExplosionParticleEffectActor;
 import com.wgsoft.game.unapocalyptic.actor.SmashParticleEffectActor;
 import com.wgsoft.game.unapocalyptic.screen.GameScreen;
 
@@ -35,6 +36,7 @@ public final class Unapocalyptic extends Game {
         }
 
         SmashParticleEffectActor.initialize(this);
+        ExplosionParticleEffectActor.initialize(this);
 
         gameScreen = new GameScreen(this);
 
@@ -61,6 +63,7 @@ public final class Unapocalyptic extends Game {
         AudioManager.dispose();
 
         SmashParticleEffectActor.disposeInstance();
+        ExplosionParticleEffectActor.disposeInstance();
     }
 
     public SpriteBatch getSpriteBatch() {

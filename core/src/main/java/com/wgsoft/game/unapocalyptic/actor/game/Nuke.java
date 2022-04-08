@@ -6,7 +6,10 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Pools;
 import com.wgsoft.game.unapocalyptic.AudioManager;
+import com.wgsoft.game.unapocalyptic.actor.ExplosionParticleEffectActor;
 import com.wgsoft.game.unapocalyptic.screen.GameScreen;
 
 public final class Nuke extends Actor {
@@ -49,6 +52,16 @@ public final class Nuke extends Actor {
                         actor.getWidth(),
                         actor.getHeight()))
                 ) {
+                    final ExplosionParticleEffectActor particleEffectActor =
+                        Pools.obtain(ExplosionParticleEffectActor.class);
+                    particleEffectActor.setPosition(
+                        getX(Align.center),
+                        getY(Align.center),
+                        Align.center
+                    );
+                    particleEffectActor.start();
+                    getParent().addActor(particleEffectActor);
+
                     AudioManager.playHitSound();
                     remove();
                     actor.remove();
@@ -57,6 +70,16 @@ public final class Nuke extends Actor {
             }
 
             if(getY() < GameScreen.GROUND_HEIGHT) {
+                final ExplosionParticleEffectActor particleEffectActor =
+                    Pools.obtain(ExplosionParticleEffectActor.class);
+                particleEffectActor.setPosition(
+                    getX(Align.center),
+                    getY(),
+                    Align.center
+                );
+                particleEffectActor.start();
+                getParent().addActor(particleEffectActor);
+
                 AudioManager.playExplosionSound();
                 remove();
                 player.die();
