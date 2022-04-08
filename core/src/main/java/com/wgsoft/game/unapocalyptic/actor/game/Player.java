@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -16,18 +17,25 @@ import com.wgsoft.game.unapocalyptic.screen.GameScreen;
 public final class Player extends Group {
     private final GameScreen gameScreen;
 
+    private final Skin skin;
+
     private final Animation<TextureRegion> standAnimation;
     private final Animation<TextureRegion> walkAnimation;
 
     private Animation<TextureRegion> animation;
     private float animationTime;
 
+    private final Hammer hammer;
+
+    private boolean a, d;
     private boolean left, right;
     private float direction;
     private boolean flip;
 
     public Player(final GameScreen gameScreen, final Skin skin) {
         this.gameScreen = gameScreen;
+        this.skin = skin;
+
         standAnimation = new Animation<>(
             1f,
             skin.getRegions("player/stand"),
@@ -38,6 +46,7 @@ public final class Player extends Group {
             skin.getRegions("player/walk"),
             Animation.PlayMode.LOOP
         );
+
         animation = standAnimation;
 
         setSize(120f, 120f);
@@ -47,49 +56,57 @@ public final class Player extends Group {
             Align.bottom | Align.center
         );
 
-        final Hammer hammer = new Hammer(skin);
+        hammer = new Hammer(skin);
         addActor(hammer);
 
         addListener(new InputListener() {
             @Override
+            public boolean touchDown(
+                final InputEvent event,
+                final float x,
+                final float y,
+                final int pointer,
+                final int button
+            ) {
+                switch(button) {
+                    case Input.Buttons.LEFT:
+                        shoot();
+                        return true;
+                    case Input.Buttons.RIGHT:
+                        hammer.smash();
+                        return true;
+                }
+
+                return false;
+            }
+
+            @Override
             public boolean keyDown(final InputEvent event, final int keycode) {
                 switch(keycode) {
+                    case Input.Keys.A:
+                        a = true;
+                        updateDirection();
+                        return true;
+                    case Input.Keys.D:
+                        d = true;
+                        updateDirection();
+                        return true;
                     case Input.Keys.LEFT:
                         left = true;
-
-                        if(right) {
-                            direction = 0f;
-                            animation = standAnimation;
-                        } else {
-                            direction = -1f;
-                            animation = walkAnimation;
-                            flip = true;
-                            hammer.setFlip(true);
-                        }
-
+                        updateDirection();
                         return true;
                     case Input.Keys.RIGHT:
                         right = true;
-
-                        if(left) {
-                            direction = 0f;
-                            animation = standAnimation;
-                        } else {
-                            direction = 1f;
-                            animation = walkAnimation;
-                            flip = false;
-                            hammer.setFlip(false);
-                        }
-
+                        updateDirection();
                         return true;
+                    case Input.Keys.W:
+                    case Input.Keys.UP:
                     case Input.Keys.Z:
-                        AudioManager.playShootSound();
-                        getParent().addActor(new Bullet(
-                            getX(Align.center),
-                            getY(Align.center),
-                            skin
-                        ));
+                        shoot();
                         return true;
+                    case Input.Keys.S:
+                    case Input.Keys.DOWN:
+                    case Input.Keys.X:
                     case Input.Keys.SPACE:
                         hammer.smash();
                         return true;
@@ -101,35 +118,28 @@ public final class Player extends Group {
             @Override
             public boolean keyUp(final InputEvent event, final int keycode) {
                 switch(keycode) {
+                    case Input.Keys.A:
+                        a = false;
+                        updateDirection();
+                        return true;
+                    case Input.Keys.D:
+                        d = false;
+                        updateDirection();
+                        return true;
                     case Input.Keys.LEFT:
                         left = false;
-
-                        if(right) {
-                            direction = 1f;
-                            animation = walkAnimation;
-                            flip = false;
-                            hammer.setFlip(false);
-                        } else {
-                            direction = 0f;
-                            animation = standAnimation;
-                        }
-
+                        updateDirection();
                         return true;
                     case Input.Keys.RIGHT:
                         right = false;
-
-                        if(left) {
-                            direction = -1f;
-                            animation = walkAnimation;
-                            flip = true;
-                            hammer.setFlip(true);
-                        } else {
-                            direction = 0f;
-                            animation = standAnimation;
-                        }
-
+                        updateDirection();
                         return true;
+                    case Input.Keys.W:
+                    case Input.Keys.UP:
                     case Input.Keys.Z:
+                    case Input.Keys.S:
+                    case Input.Keys.DOWN:
+                    case Input.Keys.X:
                     case Input.Keys.SPACE:
                         return true;
                 }
@@ -139,9 +149,47 @@ public final class Player extends Group {
         });
     }
 
+    private void updateDirection() {
+        direction = 0f;
+
+        if(a || left) {
+            direction -= 1f;
+        }
+
+        if (d || right) {
+            direction += 1f;
+        }
+
+        if(direction < 0f) {
+            flip = true;
+            animation = walkAnimation;
+        } else if(direction > 0f) {
+            flip = false;
+            animation = walkAnimation;
+        } else {
+            animation = standAnimation;
+        }
+
+        hammer.setFlip(flip);
+    }
+
+    private void shoot() {
+        AudioManager.playShootSound();
+        getParent().addActor(new Bullet(
+            getX(Align.center),
+            getY(Align.center),
+            skin
+        ));
+    }
+
     public void die() {
         gameScreen.gameOver();
         remove();
+    }
+
+    @Override
+    public Actor hit(float x, float y, boolean touchable) {
+        return this;
     }
 
     @Override

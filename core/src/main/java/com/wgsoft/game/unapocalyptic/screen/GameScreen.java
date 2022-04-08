@@ -3,7 +3,6 @@ package com.wgsoft.game.unapocalyptic.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -12,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -33,7 +33,7 @@ public final class GameScreen extends ScreenAdapter {
     private final Label scoreLabel;
     private Action scoreAction;
     private final Label descriptionLabel;
-    private final Actor restartActor;
+    private final Widget restartActor;
 
     private float time;
 
@@ -76,8 +76,21 @@ public final class GameScreen extends ScreenAdapter {
 
         stage.addActor(rootTable);
 
-        restartActor = new Actor();
+        restartActor = new Widget();
+        restartActor.setFillParent(true);
         restartActor.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(
+                final InputEvent event,
+                final float x,
+                final float y,
+                final int pointer,
+                final int button
+            ) {
+                start();
+                return true;
+            }
+
             @Override
             public boolean keyDown(final InputEvent event, final int keycode) {
                 start();
@@ -113,6 +126,8 @@ public final class GameScreen extends ScreenAdapter {
 
         descriptionLabel.setVisible(false);
 
+        restartActor.setVisible(false);
+
         time = 0f;
     }
 
@@ -122,6 +137,8 @@ public final class GameScreen extends ScreenAdapter {
         scoreLabel.removeAction(scoreAction);
 
         descriptionLabel.setVisible(true);
+
+        restartActor.setVisible(true);
     }
 
     @Override
