@@ -20,6 +20,7 @@ a:snd/explosion.wav:snd/explosion-d0ab7c41e6fd2e769eddd36e237efbcc.wav:130574:au
 a:snd/hit.wav:snd/hit-d476971c55f64bbe303ee791ba38ccd5.wav:7880:audio/x-wav:1
 d:prt:prt:0:application/unknown:1
 b:prt/smash:prt/smash-a8e98ff0c08e08fdd35e044b4529761d:1982:application/unknown:1
+b:prt/explosion:prt/explosion-25e394ee6323a92df59b17766ce58985:1909:application/unknown:1
 t:com/badlogic/gdx/graphics/g3d/particles/particles.fragment.glsl:particles.fragment-b90524761fdf09b0a836056d590c30b8.glsl:820:application/unknown:1
 t:com/badlogic/gdx/graphics/g3d/particles/particles.vertex.glsl:particles.vertex-f25b8b2fae10b9bfa09bfdd484923148.glsl:2886:application/unknown:1
 t:com/badlogic/gdx/graphics/g3d/shaders/default.fragment.glsl:default.fragment-e1c018bd48044c8b67c7bbc53145e540.glsl:5874:application/unknown:1
