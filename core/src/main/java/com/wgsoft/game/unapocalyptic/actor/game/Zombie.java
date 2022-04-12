@@ -45,7 +45,7 @@ public final class Zombie extends Actor {
             Actions.moveBy(
                 0f,
                 GameScreen.GROUND_HEIGHT + getHeight(),
-                8f
+                10f
             ),
             Actions.run(() -> {
                 walking = true;
@@ -80,7 +80,7 @@ public final class Zombie extends Actor {
                         * MathUtils.random(GameScreen.GROUND_HEIGHT),
                     0f,
                     Align.topLeft,
-                    1.5f
+                    0.5f
                 ),
                 Actions.addAction(activeAction)
             ));
