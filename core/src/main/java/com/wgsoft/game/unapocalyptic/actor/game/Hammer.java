@@ -72,7 +72,7 @@ public final class Hammer extends Actor {
                     Rectangle.tmp.set(
                         getParent().getX(Align.center)
                             - (region.isFlipX() ? ORIGIN_RIGHT : ORIGIN_LEFT),
-                        getParent().getY() + getY(),
+                        GameScreen.GROUND_HEIGHT,
                         getWidth(),
                         getHeight()
                     );
