@@ -4,10 +4,12 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Align;
 import com.wgsoft.game.unapocalyptic.AudioManager;
@@ -15,6 +17,9 @@ import com.wgsoft.game.unapocalyptic.Constants;
 import com.wgsoft.game.unapocalyptic.screen.GameScreen;
 
 public final class Player extends Group {
+    private static final float JUMP_HEIGHT = 60f;
+    private static final float JUMP_DURATION = 0.5f;
+
     private final GameScreen gameScreen;
 
     private final Skin skin;
@@ -73,7 +78,7 @@ public final class Player extends Group {
                         shoot();
                         return true;
                     case Input.Buttons.RIGHT:
-                        hammer.smash();
+                        smash();
                         return true;
                 }
 
@@ -108,7 +113,7 @@ public final class Player extends Group {
                     case Input.Keys.DOWN:
                     case Input.Keys.X:
                     case Input.Keys.SPACE:
-                        hammer.smash();
+                        smash();
                         return true;
                 }
 
@@ -178,6 +183,25 @@ public final class Player extends Group {
         getParent().addActor(
             Bullet.obtain(getX(Align.center), getY(Align.center), skin)
         );
+    }
+
+    private void smash() {
+        if(hammer.smash()) {
+            addAction(Actions.sequence(
+                Actions.moveBy(
+                    0f,
+                    JUMP_HEIGHT,
+                    JUMP_DURATION / 2f,
+                    Interpolation.pow2Out
+                ),
+                Actions.moveBy(
+                    0f,
+                    -JUMP_HEIGHT,
+                    JUMP_DURATION / 2f,
+                    Interpolation.pow2In
+                )
+            ));
+        }
     }
 
     public void die() {

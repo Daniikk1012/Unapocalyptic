@@ -11,10 +11,12 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Pools;
 import com.wgsoft.game.unapocalyptic.AudioManager;
 import com.wgsoft.game.unapocalyptic.actor.SmashParticleEffectActor;
+import com.wgsoft.game.unapocalyptic.screen.GameScreen;
 
 public final class Hammer extends Actor {
     private static final float ORIGIN_LEFT = 60f;
     private static final float ORIGIN_RIGHT = 180f;
+    private static final float SMASH_OFFSET = 30f;
 
     private final TextureRegion region;
 
@@ -44,22 +46,25 @@ public final class Hammer extends Actor {
 
     }
 
-    public void smash() {
+    public boolean smash() {
         if(!smashing) {
             smashing = true;
 
             addAction(Actions.sequence(
                 Actions.rotateTo(0f),
-                Actions.rotateBy(180f, 0.125f, Interpolation.slowFast),
+                Actions.rotateBy(200f, 0.125f, Interpolation.slowFast),
                 Actions.run(() -> {
                     AudioManager.playSmashSound();
 
                     final SmashParticleEffectActor smashParticleEffectActor =
                         Pools.obtain(SmashParticleEffectActor.class);
                     smashParticleEffectActor.setPosition(
-                        getX() + getParent().getX() + 2 * getOriginX()
-                            + (region.isFlipX() ? - getWidth() : 0f),
-                        getY() + getParent().getY()
+                        getX() + getParent().getX() + 2 * getOriginX() + (
+                            region.isFlipX()
+                                ? -getWidth() + SMASH_OFFSET
+                                : -SMASH_OFFSET
+                        ),
+                        GameScreen.GROUND_HEIGHT
                     );
                     smashParticleEffectActor.start();
                     getParent().getParent().addActor(smashParticleEffectActor);
@@ -92,7 +97,11 @@ public final class Hammer extends Actor {
                     smashing = false;
                 })
             ));
+
+            return true;
         }
+
+        return false;
     }
 
     @Override
