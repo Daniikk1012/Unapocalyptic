@@ -3,9 +3,9 @@ package com.wgsoft.game.unapocalyptic.actor;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.scenes.scene2d.ui.ParticleEffectActor;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pools;
-import com.wgsoft.game.unapocalyptic.Unapocalyptic;
 
 public final class ExplosionParticleEffectActor extends ParticleEffectActor {
     private static ParticleEffect instance;
@@ -29,11 +29,9 @@ public final class ExplosionParticleEffectActor extends ParticleEffectActor {
         setAutoRemove(true);
     }
 
-    public static void initialize(final Unapocalyptic game) {
+    public static void initialize(final Skin skin) {
         instance = new ParticleEffect();
-        instance.load(
-            Gdx.files.internal("prt/explosion"), game.getSkin().getAtlas()
-        );
+        instance.load(Gdx.files.internal("prt/explosion"), skin.getAtlas());
     }
 
     @Override
