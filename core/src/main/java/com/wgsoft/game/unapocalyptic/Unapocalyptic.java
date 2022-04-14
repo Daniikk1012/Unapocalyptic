@@ -35,6 +35,8 @@ public final class Unapocalyptic extends Game {
             }
         }
 
+        PreferenceManager.initialize();
+
         SmashParticleEffectActor.initialize(this);
         ExplosionParticleEffectActor.initialize(this);
 

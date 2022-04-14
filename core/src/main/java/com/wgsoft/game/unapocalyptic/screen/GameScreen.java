@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.wgsoft.game.unapocalyptic.Constants;
+import com.wgsoft.game.unapocalyptic.PreferenceManager;
 import com.wgsoft.game.unapocalyptic.Unapocalyptic;
 import com.wgsoft.game.unapocalyptic.actor.game.Comet;
 import com.wgsoft.game.unapocalyptic.actor.game.NukeSpawner;
@@ -32,6 +33,7 @@ public final class GameScreen extends ScreenAdapter {
     private final WidgetGroup gameGroup;
     private final Label scoreLabel;
     private Action scoreAction;
+    private final Label highScoreLabel;
     private final Label descriptionLabel;
     private final Widget restartActor;
 
@@ -64,6 +66,12 @@ public final class GameScreen extends ScreenAdapter {
         scoreLabel =
             new Label("0", game.getSkin(), "montserrat-extrabold-outline");
         rootTable.add(scoreLabel);
+
+        rootTable.row();
+
+        highScoreLabel =
+            new Label("", game.getSkin(), "montserrat-regular-medium");
+        rootTable.add(highScoreLabel);
 
         rootTable.row();
 
@@ -124,6 +132,8 @@ public final class GameScreen extends ScreenAdapter {
         }));
         scoreLabel.addAction(scoreAction);
 
+        highScoreLabel.setVisible(false);
+
         descriptionLabel.setVisible(false);
 
         restartActor.setVisible(false);
@@ -135,6 +145,15 @@ public final class GameScreen extends ScreenAdapter {
         stage.setKeyboardFocus(restartActor);
 
         scoreLabel.removeAction(scoreAction);
+
+        if((int)time > PreferenceManager.getHighScore()) {
+            PreferenceManager.setHighScore((int)time);
+            PreferenceManager.flush();
+        }
+
+        highScoreLabel
+            .setText("High Score: " + PreferenceManager.getHighScore());
+        highScoreLabel.setVisible(true);
 
         descriptionLabel.setVisible(true);
 
