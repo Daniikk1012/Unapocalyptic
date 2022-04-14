@@ -41,7 +41,7 @@ public final class Unapocalyptic extends Game {
         SmashParticleEffectActor.initialize(skin);
         ExplosionParticleEffectActor.initialize(skin);
 
-        Bullet.initialize(getSkin());
+        Bullet.initialize(skin);
 
         gameScreen = new GameScreen(this);
 
