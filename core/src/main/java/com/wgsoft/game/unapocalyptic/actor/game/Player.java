@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Pools;
 import com.wgsoft.game.unapocalyptic.AudioManager;
 import com.wgsoft.game.unapocalyptic.Constants;
 import com.wgsoft.game.unapocalyptic.screen.GameScreen;
@@ -21,8 +22,6 @@ public final class Player extends Group {
     private static final float JUMP_DURATION = 0.5f;
 
     private final GameScreen gameScreen;
-
-    private final Skin skin;
 
     private final Animation<TextureRegion> standAnimation;
     private final Animation<TextureRegion> walkAnimation;
@@ -39,7 +38,6 @@ public final class Player extends Group {
 
     public Player(final GameScreen gameScreen, final Skin skin) {
         this.gameScreen = gameScreen;
-        this.skin = skin;
 
         standAnimation = new Animation<>(
             1f,
@@ -180,9 +178,10 @@ public final class Player extends Group {
 
     private void shoot() {
         AudioManager.playShootSound();
-        getParent().addActor(
-            Bullet.obtain(getX(Align.center), getY(Align.center), skin)
-        );
+        final Bullet bullet = Pools.obtain(Bullet.class);
+        bullet
+            .setPosition(getX(Align.center), getY(Align.center), Align.center);
+        getParent().addActor(bullet);
     }
 
     private void smash() {

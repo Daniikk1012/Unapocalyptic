@@ -4,34 +4,31 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pools;
 
 public final class Bullet extends Actor {
-    private static TextureRegion region;
+    private static Skin skin;
 
     static {
         Pools.set(Bullet.class, new Pool<Bullet>() {
             @Override
             protected Bullet newObject() {
-                return new Bullet();
+                return new Bullet(skin);
             }
         });
     }
 
-    public static Bullet obtain(final float x, final float y, final Skin skin) {
-        if(region == null) {
-            region = skin.getRegion("bullet");
-        }
+    private final TextureRegion region;
 
-        final Bullet bullet = Pools.obtain(Bullet.class);
-        bullet.setPosition(x, y, Align.center);
-        return bullet;
+    public Bullet(final Skin skin) {
+        region = skin.getRegion("bullet");
+
+        setSize(30f, 30f);
     }
 
-    private Bullet() {
-        setSize(30f, 30f);
+    public static void initialize(final Skin skin) {
+        Bullet.skin = skin;
     }
 
     @Override
