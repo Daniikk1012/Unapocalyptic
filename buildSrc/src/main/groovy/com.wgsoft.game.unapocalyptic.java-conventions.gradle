@@ -2,3 +2,9 @@ plugins {
     id 'com.wgsoft.game.unapocalyptic.common-conventions'
     id 'java'
 }
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(8)
+    }
+}
