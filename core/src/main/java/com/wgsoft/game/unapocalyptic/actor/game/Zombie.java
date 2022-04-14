@@ -96,13 +96,15 @@ public final class Zombie extends Actor {
     public void act(final float delta) {
         if(walking
             && player.getStage() != null
-            && Rectangle.tmp.set(getX(), getY(), getWidth(), getHeight())
-                .overlaps(Rectangle.tmp2.set(
-                    player.getX(),
-                    player.getY(),
-                    player.getWidth(),
-                    player.getHeight()
-                ))
+            && Rectangle.tmp.setSize(60f, getHeight())
+                .setCenter(getX(Align.center), getY(Align.center))
+                .overlaps(
+                    Rectangle.tmp2.setSize(60f, player.getHeight())
+                        .setCenter(
+                            player.getX(Align.center),
+                            player.getY(Align.center)
+                        )
+                )
         ) {
             AudioManager.playEatenSound();
             player.die();
